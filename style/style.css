@@ -149,3 +149,23 @@ th {
 input[type='button'] {
   margin-top: 2rem;
 }
+
+@media only screen and (min-width: 280px) and (max-width: 767.9px) {
+  th {
+    font-size: 0.8rem;
+  }
+
+  #table-body button {
+    font-size: 0.6rem;
+  }
+
+  #enter-book {
+    width: 80%;
+    top: 24%;
+    left: 10%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
