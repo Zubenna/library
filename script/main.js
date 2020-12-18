@@ -1,7 +1,7 @@
 let myLibraryArray;
 const DEFAULT_DATA = [
   {
-    title: 'THings Fall Appart',
+    title: 'Things Fall Appart',
     author: 'Chinua Achebe',
     pageNumber: 2341,
     read: 'Not Read',
@@ -27,40 +27,29 @@ class Book {
   }
 }
 
-$bookTable.addEventListener('click', (e) => {
-  const currentTarget = e.target.parentNode.parentNode.childNodes[1];
-  if (e.target.innerHTML == 'Delete') {
-    if (confirm(`are you sure you want to delete ${currentTarget.innerText}`))
-      deleteBook(findBook(myLibraryArray, currentTarget.innerText));
-  }
-  if (e.target.innerHTML == 'Change Status') {
-    changeStatus(findBook(myLibraryArray, currentTarget.innerText));
-  }
-  if (e.target.innerHTML == 'Edit') {
-    editBook(findBook(myLibraryArray, currentTarget.innerText));
-  }
-  updateLocalStorage();
-  render();
-});
-
-function deleteBook(currentBookIndex) {
-  myLibraryArray.splice(currentBookIndex, 1);
+function render() {
+  checkLocalStorage();
+  tableBody.innerHTML = '';
+  myLibraryArray.forEach((book) => {
+    const htmlBook = `
+      <tr>
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td>${book.pageNumber}</td>
+        <td>${book.read}</td>
+        <td><button class='change-status'>Change Status</button></td>
+        <td><button class='delete-book'>Delete</button></td>
+        <td><button class='edit-book'>Edit</button></td>
+      </tr>
+      `;
+    tableBody.insertAdjacentHTML('afterbegin', htmlBook);
+ });
 }
 
-function findBook(libraryArray, name) {
-  if (libraryArray.length === 0 || libraryArray === null) {
-    return;
-  }
-  for (book of libraryArray)
-    if (book.title === name) {
-      return libraryArray.indexOf(book);
-    }
-}
+render();
 
-function changeStatus(book){
-  if (myLibraryArray[book].read === 'Read') {
-    myLibraryArray[book].read = 'Not Read';
-  } else myLibraryArray[book].read = 'Read';
+function updateLocalStorage() {
+  localStorage.setItem('myLibraryArray', JSON.stringify(myLibraryArray));
 }
 
 function editBook(bookIndex){
@@ -84,6 +73,43 @@ function editBook(bookIndex){
   hideForm();
   });
 }
+
+function changeStatus(book){
+  if (myLibraryArray[book].read === 'Read') {
+    myLibraryArray[book].read = 'Not Read';
+  } else myLibraryArray[book].read = 'Read';
+}
+
+function findBook(libraryArray, name) {
+  if (libraryArray.length === 0 || libraryArray === null) {
+    return;
+  }
+  for (book of libraryArray)
+    if (book.title === name) {
+      return libraryArray.indexOf(book);
+    }
+}
+
+function deleteBook(currentBookIndex) {
+  myLibraryArray.splice(currentBookIndex, 1);
+}
+
+$bookTable.addEventListener('click', (e) => {
+  const currentTarget = e.target.parentNode.parentNode.childNodes[1];
+  if (e.target.innerHTML === 'Delete') {
+    if (`are you sure you want to delete ${currentTarget.innerText}`) {
+      deleteBook(findBook(myLibraryArray, currentTarget.innerText));
+    }
+  }
+  if (e.target.innerHTML === 'Change Status') {
+    changeStatus(findBook(myLibraryArray, currentTarget.innerText));
+  }
+  if (e.target.innerHTML === 'Edit') {
+    editBook(findBook(myLibraryArray, currentTarget.innerText));
+  }
+  updateLocalStorage();
+  render();
+});
 
 function clearForm(){
   $bookTitle.value = '';
@@ -119,31 +145,6 @@ function checkLocalStorage() {
   }
 }
 
-function updateLocalStorage() {
-    localStorage.setItem('myLibraryArray', JSON.stringify(myLibraryArray));
-}
-
-function render() {
-   checkLocalStorage();
-   tableBody.innerHTML = '';
-   myLibraryArray.forEach((book) => {
-     const htmlBook = `
-       <tr>
-         <td>${book.title}</td>
-         <td>${book.author}</td>
-         <td>${book.pageNumber}</td>
-         <td>${book.read}</td>
-         <td><button class='change-status'>Change Status</button></td>
-         <td><button class='delete-book'>Delete</button></td>
-         <td><button class="'-book'>Edit</button></td>
-       </tr>
-       `;
-     tableBody.insertAdjacentHTML('afterbegin', htmlBook);
-  });
-}
-
-render();
-
 document.addEventListener('DOMContentLoaded', function(){
   $newBook.addEventListener('click', function(){
     $editRecord.style['display'] = 'none';
@@ -157,5 +158,4 @@ document.addEventListener('DOMContentLoaded', function(){
     clearForm();
     hideForm();
   });
-});
-  
+}); 
