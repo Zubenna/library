@@ -40,7 +40,7 @@ const getReadValue = () => {
   if (document.querySelector('input[name="read-status"]:checked').value === 'No') {
     status = 'Not Read';
   }
-  return status
+  return status;
 };
 
 function checkLocalStorage() {
@@ -114,12 +114,13 @@ function findBook(libraryArray, name) {
   if (libraryArray.length === 0 || libraryArray === null) {
     return;
   }
+
   libraryArray.forEach((book) => {
     if (book.title === name) {
       index = libraryArray.indexOf(book);
     }
   });
-    return index;
+  return index;
 }
 
 function deleteBook(currentBookIndex) {
