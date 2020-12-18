@@ -33,12 +33,14 @@ function hideForm() {
 }
 
 const getReadValue = () => {
+  let status = '';
   if (document.querySelector('input[name="read-status"]:checked').value === 'Yes') {
-    return 'Read';
+    status = 'Read';
   }
   if (document.querySelector('input[name="read-status"]:checked').value === 'No') {
-    return 'Not Read';
-  } 
+    status = 'Not Read';
+  }
+  return status
 };
 
 function checkLocalStorage() {
@@ -117,7 +119,7 @@ function findBook(libraryArray, name) {
       index = libraryArray.indexOf(book);
     }
   });
-  return index;
+    return index;
 }
 
 function deleteBook(currentBookIndex) {
