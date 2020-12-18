@@ -33,9 +33,8 @@ function hideForm() {
 
 const getReadValue = () => {
   if (document.querySelector('input[name="read-status"]:checked').value === 'Yes') {
-    return 'Read';
-  }
-  else {
+    return 'Read'; 
+  } else {
     return 'Not Read';
   }
 };
@@ -85,14 +84,15 @@ function editBook(bookIndex) {
   $editRecord.addEventListener('click', (e) => {
     e.preventDefault();
 
-    let readStatus = getReadValue();
-    let editValue = { title: $bookTitle.value,
-                      author: $bookAuthor.value,
-                      pageNumber: $bookPageNumber.value,
-                      read: readStatus 
-                    };
-    myLibraryArray.splice(bookIndex, 1, editValue);
+    const readStatus = getReadValue();
+    const editValue = { 
+      title: $bookTitle.value,
+      author: $bookAuthor.value,
+      pageNumber: $bookPageNumber.value,
+      read: readStatus,
+    };
 
+    myLibraryArray.splice(bookIndex, 1, editValue);
     updateLocalStorage();
     render();
     hideForm();
@@ -109,10 +109,12 @@ function findBook(libraryArray, name) {
   if (libraryArray.length === 0 || libraryArray === null) {
     return;
   }
-  for (book of libraryArray)
+
+  libraryArray.forEach((book) => {
     if (book.title === name) {
       return libraryArray.indexOf(book);
     }
+  });
 }
 
 function deleteBook(currentBookIndex) {
@@ -143,11 +145,11 @@ function clearForm() {
 }
 
 function addBook() {
-  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '' ) {
+  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '') {
     alert('Please, fill all the fields');
     return;
   }
-  let read = getReadValue();
+  const read = getReadValue();
   const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
   myLibraryArray.push(newBook);
   updateLocalStorage();
