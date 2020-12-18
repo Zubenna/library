@@ -8,7 +8,7 @@ const DEFAULT_DATA = [
   },
 ];
 
-const errorMsg =document.querySelector('#errorMsg');
+const errorMsg = document.querySelector('#errorMsg');
 const $submitRecord = document.querySelector('#submit-record');
 let $editRecord = document.querySelector('#edit-record');
 const $bookTable = document.querySelector('table');
@@ -35,9 +35,10 @@ function hideForm() {
 const getReadValue = () => {
   if (document.querySelector('input[name="read-status"]:checked').value === 'Yes') {
     return 'Read';
-  } else {
-    return 'Not Read';
   }
+  if (document.querySelector('input[name="read-status"]:checked').value === 'No') {
+    return 'Not Read';
+  } 
 };
 
 function checkLocalStorage() {
@@ -107,7 +108,7 @@ function changeStatus(book) {
 }
 
 function findBook(libraryArray, name) {
-  let index = ''
+  let index = '';
   if (libraryArray.length === 0 || libraryArray === null) {
     return;
   }
@@ -131,11 +132,12 @@ $bookTable.addEventListener('click', (e) => {
     }
   }
   if (e.target.innerHTML === 'Change Status') {
-    let bookIndex = findBook(myLibraryArray, currentTarget.innerText);
+    const bookIndex = findBook(myLibraryArray, currentTarget.innerText);
     changeStatus(bookIndex);
   }
   if (e.target.innerHTML === 'Edit') {
-    editBook(findBook(myLibraryArray, currentTarget.innerText));
+    const editIndex = findBook(myLibraryArray, currentTarget.innerText);
+    editBook(editIndex);
   }
   updateLocalStorage();
   render();
