@@ -1,29 +1,22 @@
 let myLibraryArray;
 const DEFAULT_DATA = [
-     {
-     title: "THings Fall Appart",
-     author: "Chinua Achebe",
-     pageNumber: 2341,
-     read: "Not Read"
-    }
- ];
+  {
+    title: 'THings Fall Appart',
+    author: 'Chinua Achebe',
+    pageNumber: 2341,
+    read: 'Not Read',
+  },
+];
 
-   const $submitRecord = document.querySelector('#submit-record');
-    let $editRecord = document.querySelector('#edit-record');
-   const $bookTable = document.querySelector('table');
-   const $formDiv = document.querySelector("#enter-book");
-   const $newBook = document.querySelector("#newBook")
-   const tableBody = document.querySelector('tbody')
-   const $bookTitle = document.querySelector("#book-title");
-   const $bookAuthor = document.querySelector("#author-name");
-   const $bookPageNumber = document.querySelector("#book-page");
-   const $bookForm = document.querySelector("form").addEventListener('submit', (e) => {
-    e.preventDefault();
-     addBook();
-     render();
-     clearForm();
-     hideForm();
- });
+const $submitRecord = document.querySelector('#submit-record');
+let $editRecord = document.querySelector('#edit-record');
+const $bookTable = document.querySelector('table');
+const $formDiv = document.querySelector('#enter-book');
+const $newBook = document.querySelector('#newBook');
+const tableBody = document.querySelector('tbody');
+const $bookTitle = document.querySelector('#book-title');
+const $bookAuthor = document.querySelector('#author-name');
+const $bookPageNumber = document.querySelector('#book-page');
 
 class Book {
   constructor(title, author, pageNumber, read) {
@@ -34,17 +27,16 @@ class Book {
   }
 }
 
-$bookTable.addEventListener("click", (e) => {
+$bookTable.addEventListener('click', (e) => {
   const currentTarget = e.target.parentNode.parentNode.childNodes[1];
-  console.log(myLibraryArray)
-  if (e.target.innerHTML == "Delete") {
+  if (e.target.innerHTML == 'Delete') {
     if (confirm(`are you sure you want to delete ${currentTarget.innerText}`))
       deleteBook(findBook(myLibraryArray, currentTarget.innerText));
   }
-  if (e.target.innerHTML == "Change Status") {
+  if (e.target.innerHTML == 'Change Status') {
     changeStatus(findBook(myLibraryArray, currentTarget.innerText));
   }
-  if (e.target.innerHTML == "Edit") {
+  if (e.target.innerHTML == 'Edit') {
     editBook(findBook(myLibraryArray, currentTarget.innerText));
   }
   updateLocalStorage();
@@ -66,9 +58,9 @@ function findBook(libraryArray, name) {
 }
 
 function changeStatus(book){
-  if (myLibraryArray[book].read === "Read") {
-    myLibraryArray[book].read = "Not Read";
-  } else myLibraryArray[book].read = "Read";
+  if (myLibraryArray[book].read === 'Read') {
+    myLibraryArray[book].read = 'Not Read';
+  } else myLibraryArray[book].read = 'Read';
 }
 
 function editBook(bookIndex){
@@ -79,7 +71,7 @@ function editBook(bookIndex){
   $bookAuthor.value = myLibraryArray[bookIndex].author;
   $bookPageNumber.value = myLibraryArray[bookIndex].pageNumber;
 
-  $editRecord = document.querySelector("#edit-record");
+  $editRecord = document.querySelector('#edit-record');
   $editRecord.addEventListener('click', (e) => {
   e.preventDefault();
    
@@ -94,9 +86,9 @@ function editBook(bookIndex){
 }
 
 function clearForm(){
-  $bookTitle.value = "";
-  $bookAuthor.value = "";
-  $bookPageNumber.value = "";
+  $bookTitle.value = '';
+  $bookAuthor.value = '';
+  $bookPageNumber.value = '';
 }
 
 function hideForm(){
@@ -104,8 +96,8 @@ function hideForm(){
 }
 
 function addBook() {
-  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value == "" ) {
-    alert("Please, fill all the fields");
+  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value == '' ) {
+    alert('Please, fill all the fields');
     return;
   }
     read = getReadValue();
@@ -120,8 +112,8 @@ const getReadValue = () => {
 }
 
 function checkLocalStorage() {
-  if (localStorage.getItem("myLibraryArray")) {
-    myLibraryArray = JSON.parse(localStorage.getItem("myLibraryArray"));
+  if (localStorage.getItem('myLibraryArray')) {
+    myLibraryArray = JSON.parse(localStorage.getItem('myLibraryArray'));
   } else {
     myLibraryArray = DEFAULT_DATA;
   }
@@ -133,7 +125,7 @@ function updateLocalStorage() {
 
 function render() {
    checkLocalStorage();
-   tableBody.innerHTML = "";
+   tableBody.innerHTML = '';
    myLibraryArray.forEach((book) => {
      const htmlBook = `
        <tr>
@@ -141,12 +133,12 @@ function render() {
          <td>${book.author}</td>
          <td>${book.pageNumber}</td>
          <td>${book.read}</td>
-         <td><button class="change-status">Change Status</button></td>
-         <td><button class="delete-book">Delete</button></td>
-         <td><button class="delete-book">Edit</button></td>
+         <td><button class='change-status'>Change Status</button></td>
+         <td><button class='delete-book'>Delete</button></td>
+         <td><button class="'-book'>Edit</button></td>
        </tr>
        `;
-     tableBody.insertAdjacentHTML("afterbegin", htmlBook);
+     tableBody.insertAdjacentHTML('afterbegin', htmlBook);
   });
 }
 
@@ -156,6 +148,14 @@ document.addEventListener('DOMContentLoaded', function(){
   $newBook.addEventListener('click', function(){
     $editRecord.style['display'] = 'none';
     $formDiv.style['display'] = 'block';
+  });
+
+  document.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    addBook();
+    render();
+    clearForm();
+    hideForm();
   });
 });
   

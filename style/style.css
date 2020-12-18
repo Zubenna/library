@@ -1,6 +1,6 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -137,7 +137,7 @@ th {
 }
 
 #table-body button {
-  font-size:1rem;
+  font-size: 1rem;
   padding: 0.2rem;
   border-radius: 3px;
   background: #191765;
