@@ -150,6 +150,10 @@ input[type='button'] {
   margin-top: 2rem;
 }
 
+#errorMsg {
+  margin-left: 30%;
+}
+
 @media only screen and (min-width: 280px) and (max-width: 767.9px) {
   th {
     font-size: 0.8rem;

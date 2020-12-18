@@ -8,6 +8,7 @@ const DEFAULT_DATA = [
   },
 ];
 
+const errorMsg =document.querySelector('#errorMsg');
 const $submitRecord = document.querySelector('#submit-record');
 let $editRecord = document.querySelector('#edit-record');
 const $bookTable = document.querySelector('table');
@@ -33,7 +34,7 @@ function hideForm() {
 
 const getReadValue = () => {
   if (document.querySelector('input[name="read-status"]:checked').value === 'Yes') {
-    return 'Read'; 
+    return 'Read';
   } else {
     return 'Not Read';
   }
@@ -85,7 +86,7 @@ function editBook(bookIndex) {
     e.preventDefault();
 
     const readStatus = getReadValue();
-    const editValue = { 
+    const editValue = {
       title: $bookTitle.value,
       author: $bookAuthor.value,
       pageNumber: $bookPageNumber.value,
@@ -106,15 +107,16 @@ function changeStatus(book) {
 }
 
 function findBook(libraryArray, name) {
+  let index = ''
   if (libraryArray.length === 0 || libraryArray === null) {
     return;
   }
-
   libraryArray.forEach((book) => {
     if (book.title === name) {
-      return libraryArray.indexOf(book);
+      index = libraryArray.indexOf(book);
     }
   });
+  return index;
 }
 
 function deleteBook(currentBookIndex) {
@@ -129,7 +131,8 @@ $bookTable.addEventListener('click', (e) => {
     }
   }
   if (e.target.innerHTML === 'Change Status') {
-    changeStatus(findBook(myLibraryArray, currentTarget.innerText));
+    let bookIndex = findBook(myLibraryArray, currentTarget.innerText);
+    changeStatus(bookIndex);
   }
   if (e.target.innerHTML === 'Edit') {
     editBook(findBook(myLibraryArray, currentTarget.innerText));
@@ -146,9 +149,11 @@ function clearForm() {
 
 function addBook() {
   if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '') {
-    alert('Please, fill all the fields');
+    errorMsg.style.color = 'red';
+    errorMsg.innerHTML = 'Please, fill all the fields';
     return;
   }
+  errorMsg.innerHTML = '';
   const read = getReadValue();
   const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
   myLibraryArray.push(newBook);
