@@ -27,6 +27,27 @@ class Book {
   }
 }
 
+function hideForm() {
+  $formDiv.style.display = 'none';
+}
+
+const getReadValue = () => {
+  if (document.querySelector('input[name="read-status"]:checked').value === 'Yes') {
+    return 'Read';
+  }
+  else {
+    return 'Not Read';
+  }
+};
+
+function checkLocalStorage() {
+  if (localStorage.getItem('myLibraryArray')) {
+    myLibraryArray = JSON.parse(localStorage.getItem('myLibraryArray'));
+  } else {
+    myLibraryArray = DEFAULT_DATA;
+  }
+}
+
 function render() {
   checkLocalStorage();
   tableBody.innerHTML = '';
@@ -43,7 +64,7 @@ function render() {
       </tr>
       `;
     tableBody.insertAdjacentHTML('afterbegin', htmlBook);
- });
+  });
 }
 
 render();
@@ -52,29 +73,33 @@ function updateLocalStorage() {
   localStorage.setItem('myLibraryArray', JSON.stringify(myLibraryArray));
 }
 
-function editBook(bookIndex){
-  $submitRecord.style['display'] = 'none';
-  $editRecord.style['display'] = 'block';
-  $formDiv.style['display'] = 'block';
+function editBook(bookIndex) {
+  $submitRecord.style.display = 'none';
+  $editRecord.style.display = 'block';
+  $formDiv.style.display = 'block';
   $bookTitle.value = myLibraryArray[bookIndex].title;
   $bookAuthor.value = myLibraryArray[bookIndex].author;
   $bookPageNumber.value = myLibraryArray[bookIndex].pageNumber;
 
   $editRecord = document.querySelector('#edit-record');
   $editRecord.addEventListener('click', (e) => {
-  e.preventDefault();
-   
-  $read = getReadValue();
-  editValue = {title: $bookTitle.value, author: $bookAuthor.value, pageNumber: $bookPageNumber.value, read: $read};
-  myLibraryArray.splice(bookIndex, 1, editValue);
+    e.preventDefault();
 
-  updateLocalStorage();
-  render();
-  hideForm();
+    let readStatus = getReadValue();
+    let editValue = { title: $bookTitle.value,
+                      author: $bookAuthor.value,
+                      pageNumber: $bookPageNumber.value,
+                      read: readStatus 
+                    };
+    myLibraryArray.splice(bookIndex, 1, editValue);
+
+    updateLocalStorage();
+    render();
+    hideForm();
   });
 }
 
-function changeStatus(book){
+function changeStatus(book) {
   if (myLibraryArray[book].read === 'Read') {
     myLibraryArray[book].read = 'Not Read';
   } else myLibraryArray[book].read = 'Read';
@@ -111,44 +136,27 @@ $bookTable.addEventListener('click', (e) => {
   render();
 });
 
-function clearForm(){
+function clearForm() {
   $bookTitle.value = '';
   $bookAuthor.value = '';
   $bookPageNumber.value = '';
 }
 
-function hideForm(){
-  $formDiv.style['display'] = 'none';
-}
-
 function addBook() {
-  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value == '' ) {
+  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '' ) {
     alert('Please, fill all the fields');
     return;
   }
-    read = getReadValue();
-    const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
-    myLibraryArray.push(newBook);
-    updateLocalStorage();
-};
-
-const getReadValue = () => {
-  if(document.querySelector('input[name="read-status"]:checked').value == 'Yes') return 'Read';
-  else return 'Not Read';
+  let read = getReadValue();
+  const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
+  myLibraryArray.push(newBook);
+  updateLocalStorage();
 }
 
-function checkLocalStorage() {
-  if (localStorage.getItem('myLibraryArray')) {
-    myLibraryArray = JSON.parse(localStorage.getItem('myLibraryArray'));
-  } else {
-    myLibraryArray = DEFAULT_DATA;
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  $newBook.addEventListener('click', function(){
-    $editRecord.style['display'] = 'none';
-    $formDiv.style['display'] = 'block';
+document.addEventListener('DOMContentLoaded', () => {
+  $newBook.addEventListener('click', () => {
+    $editRecord.style.display = 'none';
+    $formDiv.style.display = 'block';
   });
 
   document.querySelector('form').addEventListener('submit', (e) => {
@@ -158,4 +166,4 @@ document.addEventListener('DOMContentLoaded', function(){
     clearForm();
     hideForm();
   });
-}); 
+});
