@@ -50,7 +50,8 @@ form {
 
 input[type='text'],
 input[type='number'],
-input[type='submit'] {
+input[type='submit'],
+input[type='button'] {
   width: 100%;
   font-size: 1rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -120,4 +121,9 @@ th {
   font-size: 1.3rem;
   padding: 0.3rem;
   /* border-bottom: 1px solid #000; */
+}
+
+input[type='button'] {
+  /* display: none; */
+  margin-top: 2rem;
 }

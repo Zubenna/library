@@ -8,6 +8,8 @@ const DEFAULT_DATA = [
     }
  ];
 
+   const $submitRecord = document.querySelector('#submit-record');
+    let $editRecord = document.querySelector('#edit-record');
    const $bookTable = document.querySelector('table');
    const $formDiv = document.querySelector("#enter-book");
    const $newBook = document.querySelector("#newBook")
@@ -19,8 +21,8 @@ const DEFAULT_DATA = [
     e.preventDefault();
      addBook();
      render();
+     clearForm();
      hideForm();
-  //  clearForm();
  });
 
 class Book {
@@ -32,16 +34,18 @@ class Book {
   }
 }
 
-// $target = document.querySelector("#tbody-row").childNodes[0].innerHTML
 $bookTable.addEventListener("click", (e) => {
   const currentTarget = e.target.parentNode.parentNode.childNodes[1];
-  console.log(currentTarget)
+  console.log(myLibraryArray)
   if (e.target.innerHTML == "Delete") {
     if (confirm(`are you sure you want to delete ${currentTarget.innerText}`))
       deleteBook(findBook(myLibraryArray, currentTarget.innerText));
   }
   if (e.target.innerHTML == "Change Status") {
     changeStatus(findBook(myLibraryArray, currentTarget.innerText));
+  }
+  if (e.target.innerHTML == "Edit") {
+    editBook(findBook(myLibraryArray, currentTarget.innerText));
   }
   updateLocalStorage();
   render();
@@ -65,6 +69,34 @@ function changeStatus(book){
   if (myLibraryArray[book].read === "Read") {
     myLibraryArray[book].read = "Not Read";
   } else myLibraryArray[book].read = "Read";
+}
+
+function editBook(bookIndex){
+  $submitRecord.style['display'] = 'none';
+  $editRecord.style['display'] = 'block';
+  $formDiv.style['display'] = 'block';
+  $bookTitle.value = myLibraryArray[bookIndex].title;
+  $bookAuthor.value = myLibraryArray[bookIndex].author;
+  $bookPageNumber.value = myLibraryArray[bookIndex].pageNumber;
+
+  $editRecord = document.querySelector("#edit-record");
+  $editRecord.addEventListener('click', (e) => {
+  e.preventDefault();
+   
+  $read = getReadValue();
+  editValue = {title: $bookTitle.value, author: $bookAuthor.value, pageNumber: $bookPageNumber.value, read: $read};
+  myLibraryArray.splice(bookIndex, 1, editValue);
+
+  updateLocalStorage();
+  render();
+  hideForm();
+  });
+}
+
+function clearForm(){
+  $bookTitle.value = "";
+  $bookAuthor.value = "";
+  $bookPageNumber.value = "";
 }
 
 function hideForm(){
@@ -109,8 +141,9 @@ function render() {
          <td>${book.author}</td>
          <td>${book.pageNumber}</td>
          <td>${book.read}</td>
-         <td><button class="delete">Change Status</button></td>
-         <td><button class="delete">Delete</button></td>
+         <td><button class="change-status">Change Status</button></td>
+         <td><button class="delete-book">Delete</button></td>
+         <td><button class="delete-book">Edit</button></td>
        </tr>
        `;
      tableBody.insertAdjacentHTML("afterbegin", htmlBook);
@@ -121,6 +154,7 @@ render();
 
 document.addEventListener('DOMContentLoaded', function(){
   $newBook.addEventListener('click', function(){
+    $editRecord.style['display'] = 'none';
     $formDiv.style['display'] = 'block';
   });
 });
