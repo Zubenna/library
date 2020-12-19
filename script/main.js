@@ -31,8 +31,6 @@ class Book {
 function isBookInputsValid() {
   if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '') {
     return false;
-  } else {
-    return true;
   }
 }
 
@@ -154,9 +152,9 @@ $bookTable.addEventListener('click', (e) => {
 });
 
 function clearForm() {
-   $bookTitle.value = '';
-   $bookAuthor.value = '';
-   $bookPageNumber.value = '';
+  $bookTitle.value = '';
+  $bookAuthor.value = '';
+  $bookPageNumber.value = '';
 }
 
 function addBook() {
@@ -164,13 +162,13 @@ function addBook() {
     errorMsg.style.color = 'red';
     errorMsg.innerHTML = 'Please, fill all the fields';
   } else {
-  const read = getReadValue();
-  const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
-  myLibraryArray.push(newBook);
-  updateLocalStorage();
-  errorMsg.innerHTML = '';
-  clearForm();
-  hideForm();
+    const read = getReadValue();
+    const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
+    myLibraryArray.push(newBook);
+    updateLocalStorage();
+    errorMsg.innerHTML = '';
+    clearForm();
+    hideForm();
   }
 }
 
