@@ -28,8 +28,20 @@ class Book {
   }
 }
 
+function isBookInputsValid() {
+  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '') {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function hideForm() {
   $formDiv.style.display = 'none';
+}
+
+function deleteBook(currentBookIndex) {
+  myLibraryArray.splice(currentBookIndex, 1);
 }
 
 const getReadValue = () => {
@@ -95,7 +107,6 @@ function editBook(bookIndex) {
       pageNumber: $bookPageNumber.value,
       read: readStatus,
     };
-
     myLibraryArray.splice(bookIndex, 1, editValue);
     updateLocalStorage();
     render();
@@ -123,10 +134,6 @@ function findBook(libraryArray, name) {
   return index;
 }
 
-function deleteBook(currentBookIndex) {
-  myLibraryArray.splice(currentBookIndex, 1);
-}
-
 $bookTable.addEventListener('click', (e) => {
   const currentTarget = e.target.parentNode.parentNode.childNodes[1];
   if (e.target.innerHTML === 'Delete') {
@@ -147,22 +154,24 @@ $bookTable.addEventListener('click', (e) => {
 });
 
 function clearForm() {
-  $bookTitle.value = '';
-  $bookAuthor.value = '';
-  $bookPageNumber.value = '';
+   $bookTitle.value = '';
+   $bookAuthor.value = '';
+   $bookPageNumber.value = '';
 }
 
 function addBook() {
-  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '') {
+  if (isBookInputsValid() === false) {
     errorMsg.style.color = 'red';
     errorMsg.innerHTML = 'Please, fill all the fields';
-    return;
-  }
-  errorMsg.innerHTML = '';
+  } else {
   const read = getReadValue();
   const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
   myLibraryArray.push(newBook);
   updateLocalStorage();
+  errorMsg.innerHTML = '';
+  clearForm();
+  hideForm();
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -175,7 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     addBook();
     render();
-    clearForm();
-    hideForm();
+  });
+
+  document.querySelector('#formReset').addEventListener('click', () => {
+    document.querySelector('#form').reset();
   });
 });

@@ -154,6 +154,15 @@ input[type='button'] {
   margin-left: 30%;
 }
 
+#formReset {
+  height: 1.5rem;
+  background: #fff;
+  color: #000;
+  font-size: 1.2rem;
+  text-decoration: none;
+  padding: 0.2rem;
+}
+
 @media only screen and (min-width: 280px) and (max-width: 767.9px) {
   th {
     font-size: 0.8rem;
