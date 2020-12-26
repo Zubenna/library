@@ -9,8 +9,6 @@ const DEFAULT_DATA = [
 ];
 
 const errorMsg = document.querySelector('#errorMsg');
-const $submitRecord = document.querySelector('#submit-record');
-let $editRecord = document.querySelector('#edit-record');
 const $bookTable = document.querySelector('table');
 const $formDiv = document.querySelector('#enter-book');
 const $newBook = document.querySelector('#newBook');
@@ -28,6 +26,30 @@ class Book {
   }
 }
 
+function findBook(libraryArray, name) {
+  let index = '';
+  if (libraryArray.length === 0 || libraryArray === null) {
+    return;
+  }
+
+  libraryArray.forEach((book) => {
+    if (book.title === name) {
+      index = libraryArray.indexOf(book);
+    }
+  });
+  return index;
+}
+
+function isBookInputsValid() {
+  let checkInput = '';
+  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '') {
+    checkInput = false;
+  } else {
+    checkInput = true;
+  }
+  return checkInput;
+}
+
 function checkForm() {
   let checkValid = 'x';
   if ((isBookInputsValid() === true) && (findBook(myLibraryArray, $bookTitle.value) === '')) {
@@ -40,22 +62,12 @@ function checkForm() {
   return checkValid;
 }
 
-function isBookInputsValid() {
-  let checkInput = '';
-  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '') {
-    checkInput =  false;
-  } else {
-    checkInput =  true;
-  }
-  return checkInput;
-}
 
 function hideForm() {
   $formDiv.style.display = 'none';
 }
 
 function deleteBook(currentBookIndex) {
-  console.log(myLibraryArray);
   myLibraryArray.splice(currentBookIndex, 1);
 }
 
@@ -100,31 +112,16 @@ function updateLocalStorage() {
   localStorage.setItem('myLibraryArray', JSON.stringify(myLibraryArray));
 }
 
-
 function changeStatus(book) {
   if (myLibraryArray[book].read === 'Read') {
     myLibraryArray[book].read = 'Not Read';
   } else myLibraryArray[book].read = 'Read';
 }
 
-function findBook(libraryArray, name) {
-  let index = '';
-  if (libraryArray.length === 0 || libraryArray === null) {
-    return;
-  }
-
-  libraryArray.forEach((book) => {
-    if (book.title === name) {
-      index = libraryArray.indexOf(book);
-    }
-  });
-  return index;
-}
-
 $bookTable.addEventListener('click', (e) => {
   const currentTarget = e.target.parentNode.parentNode.childNodes[1];
   if (e.target.innerHTML === 'Delete') {
-      deleteBook(findBook(myLibraryArray, currentTarget.innerText));
+    deleteBook(findBook(myLibraryArray, currentTarget.innerText));
   }
   if (e.target.innerHTML === 'Change Status') {
     const bookIndex = findBook(myLibraryArray, currentTarget.innerText);
@@ -141,7 +138,7 @@ function clearForm() {
 }
 
 function addBook() {
-  if((checkForm() === true) || (myLibraryArray.length === 0)) {
+  if ((checkForm() === true) || (myLibraryArray.length === 0)) {
     const read = getReadValue();
     const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
     myLibraryArray.push(newBook);
@@ -166,6 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#formReset').addEventListener('click', () => {
     document.querySelector('#form').reset();
   });
-
+  
   render();
 });

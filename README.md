@@ -1,20 +1,20 @@
 ## Library App
 
-This is a library application designed to store book objects in an array. Records are stored using the JavaScript localStorage. Users enter records in this application by clicking on the Add Book button shown at the top of the page. This button opens a form where users will be required to enter the book title, author, number of pages, and read status. By clicking submit, the record is displayed below the button. Users should not store a book with the same title twice. Duplicate records are not permitted.
+This is a library application designed to store book objects in an array. Records are stored using the JavaScript localStorage. Users enter records in this application by clicking on the Add Book button shown at the top of the page. This button opens a form where users will be required to enter the book title, author, number of pages, and select read status. By clicking submit, the record is displayed below the button. Users should not store a book with the same title twice. Duplicate records are not permitted.
 
 ## Preview
 
 ## Home Page with Log in From, Desktop view
-![image](images/library-one.png)
+![image](images/Desktop-login.png)
 
 ## Book List, Desktop view
-![image](images/library-two.png)
+![image](images/desktop-home.png)
 
 ## Home Page with Log in From, Mobile view
-![image](images/library-three.png)
+![image](images/Mobile-login.png)
 
 ## Book List, Mobile view
-![image](images/library-four.png)
+![image](images/Mobile-home.png)
 
 
 
@@ -22,7 +22,6 @@ This is a library application designed to store book objects in an array. Record
 - Users can add a new book with the required parameters.
 - Users can change the read status of books in the record. 
 - Users can delete unwanted records.
-- Users can edit an existing record.
 
 ## Project SetUp
 
