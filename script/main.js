@@ -163,6 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#formReset').addEventListener('click', () => {
     document.querySelector('#form').reset();
   });
-  
+
   render();
 });

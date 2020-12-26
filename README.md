@@ -4,13 +4,13 @@ This is a library application designed to store book objects in an array. Record
 
 ## Preview
 
-## Home Page with Log in From, Desktop view
+## Home Page with Log in Form, Desktop view
 ![image](images/Desktop-login.png)
 
 ## Book List, Desktop view
 ![image](images/desktop-home.png)
 
-## Home Page with Log in From, Mobile view
+## Home Page with Log in Form, Mobile view
 ![image](images/Mobile-login.png)
 
 ## Book List, Mobile view
