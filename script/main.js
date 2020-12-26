@@ -28,10 +28,26 @@ class Book {
   }
 }
 
-function isBookInputsValid() {
-  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '') {
-    return false;
+function checkForm() {
+  let checkValid = 'x';
+  if ((isBookInputsValid() === true) && (findBook(myLibraryArray, $bookTitle.value) === '')) {
+    checkValid = true;
+  } else {
+    errorMsg.style.color = 'red';
+    errorMsg.innerHTML = 'Empty field or Book Title Already exist';
+    checkValid = false;
   }
+  return checkValid;
+}
+
+function isBookInputsValid() {
+  let checkInput = '';
+  if ($bookTitle.value.length === 0 || $bookAuthor.value.length === 0 || $bookPageNumber.value === '') {
+    checkInput =  false;
+  } else {
+    checkInput =  true;
+  }
+  return checkInput;
 }
 
 function hideForm() {
@@ -39,6 +55,7 @@ function hideForm() {
 }
 
 function deleteBook(currentBookIndex) {
+  console.log(myLibraryArray);
   myLibraryArray.splice(currentBookIndex, 1);
 }
 
@@ -73,44 +90,16 @@ function render() {
         <td>${book.read}</td>
         <td><button class='change-status'>Change Status</button></td>
         <td><button class='delete-book'>Delete</button></td>
-        <td><button class='edit-book'>Edit</button></td>
       </tr>
       `;
     tableBody.insertAdjacentHTML('afterbegin', htmlBook);
   });
 }
 
-render();
-
 function updateLocalStorage() {
   localStorage.setItem('myLibraryArray', JSON.stringify(myLibraryArray));
 }
 
-function editBook(bookIndex) {
-  $submitRecord.style.display = 'none';
-  $editRecord.style.display = 'block';
-  $formDiv.style.display = 'block';
-  $bookTitle.value = myLibraryArray[bookIndex].title;
-  $bookAuthor.value = myLibraryArray[bookIndex].author;
-  $bookPageNumber.value = myLibraryArray[bookIndex].pageNumber;
-
-  $editRecord = document.querySelector('#edit-record');
-  $editRecord.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    const readStatus = getReadValue();
-    const editValue = {
-      title: $bookTitle.value,
-      author: $bookAuthor.value,
-      pageNumber: $bookPageNumber.value,
-      read: readStatus,
-    };
-    myLibraryArray.splice(bookIndex, 1, editValue);
-    updateLocalStorage();
-    render();
-    hideForm();
-  });
-}
 
 function changeStatus(book) {
   if (myLibraryArray[book].read === 'Read') {
@@ -135,17 +124,11 @@ function findBook(libraryArray, name) {
 $bookTable.addEventListener('click', (e) => {
   const currentTarget = e.target.parentNode.parentNode.childNodes[1];
   if (e.target.innerHTML === 'Delete') {
-    if (`are you sure you want to delete ${currentTarget.innerText}`) {
       deleteBook(findBook(myLibraryArray, currentTarget.innerText));
-    }
   }
   if (e.target.innerHTML === 'Change Status') {
     const bookIndex = findBook(myLibraryArray, currentTarget.innerText);
     changeStatus(bookIndex);
-  }
-  if (e.target.innerHTML === 'Edit') {
-    const editIndex = findBook(myLibraryArray, currentTarget.innerText);
-    editBook(editIndex);
   }
   updateLocalStorage();
   render();
@@ -158,10 +141,7 @@ function clearForm() {
 }
 
 function addBook() {
-  if (isBookInputsValid() === false) {
-    errorMsg.style.color = 'red';
-    errorMsg.innerHTML = 'Please, fill all the fields';
-  } else {
+  if((checkForm() === true) || (myLibraryArray.length === 0)) {
     const read = getReadValue();
     const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
     myLibraryArray.push(newBook);
@@ -174,7 +154,6 @@ function addBook() {
 
 document.addEventListener('DOMContentLoaded', () => {
   $newBook.addEventListener('click', () => {
-    $editRecord.style.display = 'none';
     $formDiv.style.display = 'block';
   });
 
@@ -187,4 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#formReset').addEventListener('click', () => {
     document.querySelector('#form').reset();
   });
+
+  render();
 });
