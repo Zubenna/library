@@ -2,11 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="style/style.css">
     <title>Library App</title>
 </head>
 <body>
-  <script src="script/main.js"></script>
+    <div class='heading'>
+      <h1>My Library</h1><br>
+      <a href="#" id='newBook'>+ Add Book</a>
+    </div>
+    <div class='library-container'>
+      <table class="noborder table-responsive">
+        <thead>
+          <tr>
+            <th id="bookTitle">Book Title</th>
+            <th class="headItem">Book Author</th>
+            <th class="headItem">Page Number</th>
+            <th class="headItem">Read Status</th>
+            <th id="changeStaus"></th>
+            <th class="action"></th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <div id="enter-book">
+      <div class='close-box'>
+        <div class="close"><a href="index.html" class="close">X</a></div>
+      </div>
+        <h1>New Book</h1>
+        <span id="errorMsg"></span>
+      <form action="" id="form" class='form'>
+        <input type="text" id="book-title" placeholder="Enter Book title"><br>
+        <input type="text" id="author-name" placeholder="Enter Book Author"><br>
+        <input type="number" id="book-page" placeholder="Enter Book Page Number"><br>
+        <p id="read-label">Read Book?</p>
+        <label for="read-yes">Yes</label>
+        <input type="radio" id="read-yes" name="read-status" value="Yes" checked>
+        <label for="read-no">No</label>
+        <input type="radio" id="read-no" name="read-status" value="No">
+        <a href='#' id='formReset'>Reset Form</a>
+        <input type="submit" id="submit-record" value="Submit">
+      </form>
+    </div>
+<script src="script/main.js"></script>
 </body>
 </html>
+
