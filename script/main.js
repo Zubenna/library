@@ -17,16 +17,12 @@ const $bookTitle = document.querySelector('#book-title');
 const $bookAuthor = document.querySelector('#author-name');
 const $bookPageNumber = document.querySelector('#book-page');
 
-const book = (title, author, pageNumber, read) => ({
-  title, author, pageNumber, read,
-});
-
 class Book {
   constructor(title, author, pageNumber, read) {
     this.title = title;
     this.author = author;
     this.pageNumber = pageNumber;
-    this.read = read; 
+    this.read = read;
   }
 }
 
