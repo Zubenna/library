@@ -17,9 +17,7 @@ const $bookTitle = document.querySelector('#book-title');
 const $bookAuthor = document.querySelector('#author-name');
 const $bookPageNumber = document.querySelector('#book-page');
 
-const book = (title, author, pageNumber, read) => {
-  return { title, author, pageNumber, read }
-};
+const book = ( title, author, pageNumber, read ) => ( { title, author, pageNumber, read } );
 
 function findBook(libraryArray, name) {
   let index = '';
