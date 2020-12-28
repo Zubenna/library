@@ -17,9 +17,14 @@ const $bookTitle = document.querySelector('#book-title');
 const $bookAuthor = document.querySelector('#author-name');
 const $bookPageNumber = document.querySelector('#book-page');
 
-const book = (title, author, pageNumber, read) => ({
-  title, author, pageNumber, read,
-});
+class Book {
+  constructor(title, author, pageNumber, read) {
+    this.title = title;
+    this.author = author;
+    this.pageNumber = pageNumber;
+    this.read = read;
+  }
+}
 
 function findBook(libraryArray, name) {
   let index = '';
@@ -135,7 +140,7 @@ function clearForm() {
 function addBook() {
   if ((checkForm() === true) || (myLibraryArray.length === 0)) {
     const read = getReadValue();
-    const newBook = book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
+    const newBook = new Book($bookTitle.value, $bookAuthor.value, $bookPageNumber.value, read);
     myLibraryArray.push(newBook);
     updateLocalStorage();
     errorMsg.innerHTML = '';
